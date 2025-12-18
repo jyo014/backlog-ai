@@ -1,0 +1,105 @@
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f4f7f6;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+#app-container {
+    width: 100%;
+    max-width: 600px;
+    background: white;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 20px;
+}
+
+header h1 {
+    text-align: center;
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.form-section {
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background-color: #4f46e5; /* Laravelっぽい色 */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #4338ca;
+}
+
+.result-section {
+    margin-top: 30px;
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+.question {
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 5px;
+    background-color: #f1f5f9;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.response-text pre {
+    white-space: pre-wrap; /* 自動改行 */
+    background-color: #f8fafc;
+    padding: 15px;
+    border-radius: 8px;
+    color: #333;
+    font-size: 15px;
+    line-height: 1.6;
+    border: 1px solid #e2e8f0;
+    font-family: inherit; /* フォントを親に合わせる */
+}
+
+.placeholder-text {
+    text-align: center;
+    color: #aaa;
+    font-size: 0.9em;
+}
+
+
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+    margin-bottom: 10px;
+    min-height: 100px; /* 高さを確保 */
+    resize: vertical;  /* 縦に伸ばせるようにする */
+    font-family: inherit;
+}
