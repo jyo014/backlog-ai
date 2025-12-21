@@ -3,108 +3,155 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gemini AI Chat</title>
+    <title>AI Task Manager</title>
     <style>
-        /* 基本レイアウト */
-        body { margin: 0; padding: 0; height: 100vh; display: flex; flex-direction: column; font-family: 'Helvetica Neue', Arial, sans-serif; background-color: #f5f7fb; color: #333; }
-        .app-header { text-align: center; background-color: #fff; padding: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); flex-shrink: 0; }
-        .app-header h1 { margin: 0; font-size: 20px; color: #333; }
-        
-        /* チャットエリア */
-        .chat-display { flex-grow: 1; overflow-y: auto; padding: 20px; width: 100%; max-width: 800px; margin: 0 auto; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px; padding-bottom: 20px; }
-        .message { display: flex; width: 100%; }
-        .user-message { justify-content: flex-end; }
-        .ai-message { justify-content: flex-start; }
-        .bubble { padding: 15px 20px; border-radius: 12px; max-width: 85%; line-height: 1.6; font-size: 15px; box-shadow: 0 1px 2px rgba(0,0,0,0.1); position: relative; }
-        .user-message .bubble { background-color: #d1e7dd; color: #0f5132; border-bottom-right-radius: 2px; }
-        .ai-message .bubble { background-color: #fff; border-bottom-left-radius: 2px; }
-        .empty-state { text-align: center; color: #aaa; margin-top: 100px; }
-        pre { white-space: pre-wrap; margin: 0; font-family: inherit; }
+        /* 基本設定 */
+        body { 
+            margin: 0; 
+            padding: 0; 
+            height: 100vh; 
+            font-family: 'Helvetica Neue', Arial, sans-serif; 
+            background-color: #f5f7fb; 
+            color: #333; 
+            display: flex; 
+            flex-direction: column; 
+        }
+
+        /* ヘッダー */
+        .app-header { 
+            background: #fff; 
+            padding: 15px 20px; 
+            text-align: center; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
+            z-index: 10; 
+            font-weight: bold; 
+            font-size: 1.2rem; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+
+        /* メインコンテナ（画面いっぱい） */
+        .main-container { 
+            flex: 1; 
+            display: flex; 
+            overflow: hidden; 
+            /* 以前はmax-widthなどで制限していましたが、全幅にします */
+            width: 100%;
+        }
+
+        /* チャットセクション（全幅） */
+        .chat-section { 
+            flex: 1; /* flex: 2 から変更して全幅占有 */
+            display: flex; 
+            flex-direction: column; 
+            /* border-right を削除 */
+            background: #fff; 
+            max-width: 1000px; /* あまり広すぎると読みづらいので、中央寄せ用の制限を入れる */
+            margin: 0 auto; /* 中央寄せ */
+            width: 100%;
+            border-left: 1px solid #eee; /* 左右に境界線を追加して見た目を整える */
+            border-right: 1px solid #eee;
+        }
+
+        /* チャット履歴エリア */
+        .chat-history { 
+            flex: 1; 
+            overflow-y: auto; 
+            padding: 30px; /* パディングを少し広げました */
+            display: flex; 
+            flex-direction: column; 
+            gap: 20px; 
+        }
 
         /* 入力エリア */
-        .input-area { background-color: #fff; padding: 20px; border-top: 1px solid #ddd; flex-shrink: 0; }
-        .input-container { max-width: 800px; margin: 0 auto; display: flex; gap: 10px; }
-        textarea { flex: 1; padding: 12px; border: 1px solid #ccc; border-radius: 8px; resize: none; height: 50px; font-size: 16px; font-family: inherit; }
-        button { background-color: #4f46e5; color: white; border: none; padding: 0 25px; border-radius: 8px; font-weight: bold; cursor: pointer; height: 76px; transition: background-color 0.2s; }
-        button:hover { background-color: #4338ca; }
-        button:disabled { background-color: #ccc; cursor: not-allowed; }
+        .input-area { 
+            padding: 20px 30px; 
+            border-top: 1px solid #eee; 
+            background: #f9f9f9; 
+        }
+        .input-form { display: flex; gap: 10px; }
+        
+        textarea { 
+            flex: 1; 
+            padding: 15px; 
+            border-radius: 8px; 
+            border: 1px solid #ccc; 
+            resize: none; 
+            height: 50px; 
+            font-family: inherit;
+        }
 
-        /* ローディングアニメーション */
-        .loading-overlay {
-            display: none;
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(255, 255, 255, 0.8);
-            z-index: 100;
-            justify-content: center; align-items: center; flex-direction: column;
+        .btn-send { 
+            background: #4f46e5; 
+            color: white; 
+            border: none; 
+            padding: 0 25px; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-weight: bold;
+            transition: background 0.2s;
         }
-        .spinner {
-            width: 40px; height: 40px;
-            border: 4px solid #f3f3f3; border-top: 4px solid #4f46e5; border-radius: 50%;
-            animation: spin 1s linear infinite; margin-bottom: 10px;
+        .btn-send:hover { background: #4338ca; }
+
+        /* メッセージスタイル */
+        .message { 
+            max-width: 85%; /* 少し広げました */
+            padding: 15px 20px; 
+            border-radius: 12px; 
+            line-height: 1.6; 
+            font-size: 15px; 
         }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .loading-text { font-weight: bold; color: #4f46e5; }
+        .user-message { 
+            align-self: flex-end; 
+            background: #d1e7dd; 
+            color: #0f5132; 
+        }
+        .ai-message { 
+            align-self: flex-start; 
+            background: #f0f0f0; 
+            color: #333; 
+        }
+        pre { white-space: pre-wrap; margin: 0; font-family: inherit; }
+
     </style>
 </head>
 <body>
 
-    <div class="loading-overlay" id="loading">
-        <div class="spinner"></div>
-        <div class="loading-text">Geminiが考え中...</div>
+    <div class="app-header">
+        <a href="{{ route('dashboard') }}" style="text-decoration: none; color: #4f46e5; font-size: 14px; display: flex; align-items: center; gap: 5px;">
+            ⬅ ダッシュボードへ
+        </a>
+
+        <span>AI Task Manager</span>
+        
+        {{-- ヘッダーの右側が寂しいので、空のdivでバランスを取るか、別の機能を入れる余地 --}}
+        <div style="width: 100px;"></div> 
     </div>
 
-    <header class="app-header">
-        <h1>Gemini AI チャットフォーム</h1>
-    </header>
-
-    <main class="chat-display" id="chat-box">
-        @if(isset($chats) && count($chats) > 0)
-            @foreach($chats as $chat)
-                <div class="message user-message">
-                    <div class="bubble">
-                        <strong>あなた:</strong><br>
-                        {!! nl2br(e($chat->user_message)) !!}
-                    </div>
-                </div>
-                <div class="message ai-message">
-                    <div class="bubble">
-                        <strong>Gemini:</strong><br>
-                        <pre>{{ $chat->ai_response }}</pre>
-                    </div>
-                </div>
-            @endforeach
-        @else
-            <div class="empty-state">
-                <p>まだ会話はありません。<br>下のフォームから話しかけてみてください！</p>
+    <div class="main-container">
+        <div class="chat-section">
+            <div class="chat-history" id="chat-box">
+                @foreach($chats as $chat)
+                    <div class="message user-message">{!! nl2br(e($chat->user_message)) !!}</div>
+                    <div class="message ai-message"><pre>{{ $chat->ai_response }}</pre></div>
+                @endforeach
             </div>
-        @endif
-    </main>
-
-    <footer class="input-area">
-        <form method="POST" action="{{ route('gemini.post') }}" onsubmit="showLoading()">
-            @csrf
-            <div class="input-container">
-                <textarea 
-                    name="sentence" 
-                    placeholder="質問を入力... (Shift+Enterで改行)" 
-                    required
-                ></textarea>
-                <button type="submit" id="submit-btn">送信</button>
+            <div class="input-area">
+                <form method="POST" action="{{ route('gemini.post') }}" class="input-form">
+                    @csrf
+                    <textarea name="sentence" placeholder="進捗どう？と聞いてみてください..." required></textarea>
+                    <button type="submit" class="btn-send">送信</button>
+                </form>
             </div>
-        </form>
-    </footer>
+        </div>
 
+        {{-- ★★★ 右側の .task-section を削除しました ★★★ --}}
+    </div>
+    
     <script>
-        function showLoading() {
-            document.getElementById('loading').style.display = 'flex';
-            document.getElementById('submit-btn').disabled = true;
-        }
-
-        window.onload = function() {
-            var chatBox = document.getElementById('chat-box');
-            chatBox.scrollTop = chatBox.scrollHeight;
-        };
+        const chatBox = document.getElementById('chat-box');
+        chatBox.scrollTop = chatBox.scrollHeight;
     </script>
-
 </body>
 </html>

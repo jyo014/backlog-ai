@@ -45,4 +45,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    // User.php クラスの中に以下を追加
+
+    // ユーザーが履修している授業を取得する設定
+    public function courses()
+    {
+        // 'course_user' テーブルを経由して Courseモデルとつながる
+        return $this->belongsToMany(Course::class, 'course_user');
+    }
 }
