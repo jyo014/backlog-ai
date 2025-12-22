@@ -16,7 +16,6 @@ class Task extends Model
         'priority',
         'progress',
         'backlog_key',
-        //新しく追加
         'team_id',
         'duration',
         'user_id',

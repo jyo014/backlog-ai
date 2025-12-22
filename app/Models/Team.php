@@ -15,6 +15,7 @@ class Team extends Model
         'university_id', 
     ];
 
+
     public function university()
     {
         // チームは一つの大学に属する

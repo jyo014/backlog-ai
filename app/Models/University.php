@@ -10,6 +10,7 @@ class University extends Model
     use HasFactory;
 
     protected $fillable = ['name']; 
+
     
     // チームとのリレーション（1つの大学に複数のチームがある）
     public function teams()
