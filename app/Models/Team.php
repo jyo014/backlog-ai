@@ -12,10 +12,10 @@ class Team extends Model
     protected $fillable = [
         'name',
         'owner_id',
-        'university_id', // ★これを追加（保存時に必要になります）
+        'university_id', 
     ];
 
-    // ★★★ これがエラーの原因でした。このメソッドを追加してください ★★★
+
     public function university()
     {
         // チームは一つの大学に属する

@@ -13,11 +13,9 @@ class Task extends Model
         'title',
         'deadline',
         'status',
-        // ★追加
         'priority',
         'progress',
         'backlog_key',
-        //新しく追加
         'team_id',
         'duration',
         'user_id',

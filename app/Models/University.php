@@ -9,7 +9,8 @@ class University extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name']; // ★書き込み許可
+    protected $fillable = ['name']; 
+
     
     // チームとのリレーション（1つの大学に複数のチームがある）
     public function teams()
