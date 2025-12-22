@@ -1,105 +1,134 @@
+/* 画面全体のレイアウト設定 */
 body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    background-color: #f4f7f6;
     margin: 0;
     padding: 0;
+    height: 100vh; /* 画面の高さを100%使う */
     display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+    flex-direction: column; /* 縦並びにする */
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f5f7fb;
 }
 
-#app-container {
-    width: 100%;
-    max-width: 600px;
-    background: white;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    border-radius: 10px;
-    overflow: hidden;
-    padding: 20px;
-}
-
-header h1 {
+/* 1. タイトル（上） */
+.app-header {
     text-align: center;
+    background-color: #fff;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    z-index: 10;
+}
+
+.app-header h1 {
+    margin: 0;
+    font-size: 20px;
     color: #333;
-    font-size: 24px;
-    margin-bottom: 20px;
 }
 
-.form-section {
-    margin-bottom: 20px;
-}
-
-input[type="text"] {
+/* 2. メイン回答エリア（真ん中） */
+.chat-display {
+    flex: 1; /* 余ったスペースを全部使う */
+    overflow-y: auto; /* 長くなったらスクロールする */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* メッセージの間隔 */
+    max-width: 800px; /* 横幅が広がりすぎないように */
+    margin: 0 auto; /* 中央寄せ */
     width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
     box-sizing: border-box;
+}
+
+/* 吹き出しのデザイン */
+.message {
+    display: flex;
+}
+
+.user-message {
+    justify-content: flex-end; /* 右寄せ */
+}
+
+.ai-message {
+    justify-content: flex-start; /* 左寄せ */
+}
+
+.bubble {
+    padding: 15px 20px;
+    border-radius: 12px;
+    max-width: 80%;
+    line-height: 1.6;
+    font-size: 15px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+/* ユーザーの色 */
+.user-message .bubble {
+    background-color: #d1e7dd; /* 薄い緑 */
+    color: #0f5132;
+    border-bottom-right-radius: 2px;
+}
+
+/* AIの色 */
+.ai-message .bubble {
+    background-color: #fff;
+    color: #333;
+    border-bottom-left-radius: 2px;
+}
+
+/* preタグ（コードなど）の調整 */
+pre {
+    white-space: pre-wrap;
+    margin: 0;
+    font-family: inherit;
+}
+
+/* 何もない時の表示 */
+.empty-state {
+    text-align: center;
+    color: #aaa;
+    margin-top: 50px;
+}
+
+/* 3. 入力エリア（下） */
+.input-area {
+    background-color: #fff;
+    padding: 20px;
+    border-top: 1px solid #ddd;
+}
+
+.input-container {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    gap: 10px;
+}
+
+textarea {
+    flex: 1; /* 横幅いっぱいに広げる */
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    resize: none; /* サイズ変更不可 */
+    height: 50px; /* 初期の高さ */
     font-size: 16px;
-    margin-bottom: 10px;
+    font-family: inherit;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #4f46e5;
 }
 
 button {
-    width: 100%;
-    padding: 12px;
-    background-color: #4f46e5; /* Laravelっぽい色 */
+    background-color: #4f46e5;
     color: white;
     border: none;
-    border-radius: 5px;
-    font-size: 16px;
+    padding: 0 25px;
+    border-radius: 8px;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.2s;
 }
 
 button:hover {
     background-color: #4338ca;
-}
-
-.result-section {
-    margin-top: 30px;
-    border-top: 1px solid #eee;
-    padding-top: 20px;
-}
-
-.question {
-    font-weight: bold;
-    color: #555;
-    margin-bottom: 5px;
-    background-color: #f1f5f9;
-    padding: 8px;
-    border-radius: 4px;
-}
-
-.response-text pre {
-    white-space: pre-wrap; /* 自動改行 */
-    background-color: #f8fafc;
-    padding: 15px;
-    border-radius: 8px;
-    color: #333;
-    font-size: 15px;
-    line-height: 1.6;
-    border: 1px solid #e2e8f0;
-    font-family: inherit; /* フォントを親に合わせる */
-}
-
-.placeholder-text {
-    text-align: center;
-    color: #aaa;
-    font-size: 0.9em;
-}
-
-
-textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    box-sizing: border-box;
-    font-size: 16px;
-    margin-bottom: 10px;
-    min-height: 100px; /* 高さを確保 */
-    resize: vertical;  /* 縦に伸ばせるようにする */
-    font-family: inherit;
 }
