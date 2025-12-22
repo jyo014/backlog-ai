@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('universities', function (Blueprint $table) {
             $table->id();
-            $table->string('name'); // ★大学名カラムを追加
+            $table->string('name'); // 大学名
             $table->timestamps();
         });
     }

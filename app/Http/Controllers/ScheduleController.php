@@ -50,7 +50,6 @@ class ScheduleController extends Controller
         return view('schedule.index', compact('periodDays', 'schedules', 'mode', 'baseDate'));
     }
 
-    // ... (store, destroy など他のメソッドはそのまま) ...
     public function store(Request $request)
     {
         $request->validate([

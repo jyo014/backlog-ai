@@ -24,7 +24,7 @@ class SettingController extends Controller
 
         $user = Auth::user();
         
-        // 入力されたドメインの整形（https://などを削除してドメインのみにする）
+        // 入力されたドメイン【https://などを削除してドメインのみにする）
         $domain = $request->backlog_domain;
         if ($domain) {
             $domain = str_replace(['https://', 'http://', '/'], '', $domain);

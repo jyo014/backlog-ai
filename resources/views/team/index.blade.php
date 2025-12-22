@@ -1,5 +1,5 @@
 <x-app-layout>
-    {{-- ▼▼▼ ケース1：すでにチームに所属している場合（ダッシュボード表示） ▼▼▼ --}}
+    {{--  ケース1：すでにチームに所属している場合（ダッシュボード表示）  --}}
     @if(isset($team))
         <x-slot name="header">
             <div class="flex justify-between items-center">
@@ -8,7 +8,7 @@
                 </h2>
                 <div class="flex items-center gap-2">
                     <span class="text-xs text-gray-500">学科チーム・ポータル</span>
-                    {{-- ★ここが重要：チームを抜けて検索画面に戻るためのボタン --}}
+                    {{-- チームを抜けて検索画面に戻るためのボタン --}}
                     <form action="{{ route('team.leave') }}" method="POST" onsubmit="return confirm('チームを抜けて検索画面に戻りますか？');">
                         @csrf
                         <button class="text-xs bg-gray-200 hover:bg-red-100 text-gray-600 hover:text-red-600 px-3 py-1.5 rounded transition font-bold">
@@ -93,7 +93,7 @@
                     {{-- 右側：サイドバー --}}
                     <div class="space-y-6">
                         
-                        {{-- ▼▼▼ 追加機能：今日の予定（1日のスケジュール） ▼▼▼ --}}
+                        {{-- 追加機能：今日の予定（1日のスケジュール） --}}
                         <div class="bg-gradient-to-br from-indigo-600 to-indigo-800 text-white p-6 rounded-xl shadow-lg relative overflow-hidden">
                             <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-white opacity-10 rounded-full blur-xl"></div>
                             
@@ -134,7 +134,7 @@
                                 @endif
                             </div>
                         </div>
-                        {{-- ▲▲▲ 追加ここまで ▲▲▲ --}}
+                        {{-- 追加ここまで  --}}
 
                         <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 text-center">
                             <div class="text-sm text-gray-500 mb-2">所属メンバー</div>
@@ -184,7 +184,7 @@
             </div>
         </div>
 
-    {{-- ▼▼▼ ケース2：まだチームに入っていない場合（検索・参加画面） ▼▼▼ --}}
+    {{-- ケース2：まだチームに入っていない場合（検索・参加画面） --}}
     @else
         <x-slot name="header"></x-slot>
         <div class="py-12 bg-gray-50 min-h-screen">

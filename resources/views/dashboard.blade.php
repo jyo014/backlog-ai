@@ -28,12 +28,12 @@
                     情報共有
                 </a>
 
-                {{-- ▼▼▼ 追加：日程管理 ▼▼▼ --}}
+                {{-- 日程管理  --}}
                 <a href="{{ route('schedule.index') }}" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all font-medium">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                     日程管理
                 </a>
-                {{-- ▼▼▼ 追加：タスク管理 ▼▼▼ --}}
+                {{-- ▼▼▼タスク管理 ▼▼▼ --}}
                 <a href="{{ route('tasks.index') }}" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors {{ request()->routeIs('tasks.index') ? 'bg-blue-50 text-blue-600 border-r-4 border-blue-600' : '' }}">
                     <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
@@ -160,7 +160,7 @@
                     {{-- 右側カラム --}}
                     <div class="space-y-6">
                         
-                        {{-- 今日のスケジュール（授業と課題） --}}
+                        {{-- 今日のスケジュール --}}
                         <div class="bg-gradient-to-br from-indigo-600 to-purple-700 text-white p-6 rounded-2xl shadow-lg relative overflow-hidden">
                             <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-white opacity-10 rounded-full blur-xl"></div>
                             

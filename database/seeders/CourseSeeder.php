@@ -15,7 +15,7 @@ class CourseSeeder extends Seeder
         //
         // とりあえずテスト用に3つ授業を作る
         \App\Models\Course::create([
-            'university_name' => '福岡工業大学', // あなたの大学名に変えてOK
+            'university_name' => '福岡工業大学', // 
             'course_name' => '基礎ロボット工学',
             'day_of_week' => '月',
             'period' => 1,

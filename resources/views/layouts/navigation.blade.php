@@ -62,7 +62,6 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         
         <div class="pt-2 pb-3 space-y-1">
-             {{-- ここにスマホ用メニューがあれば表示 --}}
         </div>
 
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
@@ -75,8 +74,6 @@
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
-
-                {{-- スマホメニューにも設定を追加 --}}
                 <x-responsive-nav-link :href="route('settings.edit')">
                     {{ __('設定') }}
                 </x-responsive-nav-link>

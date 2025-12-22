@@ -17,7 +17,7 @@
                 </div>
             @endif
 
-            {{-- 追加ここから：授業新規登録フォーム --}}
+            {{-- 授業新規登録フォーム --}}
             <div class="mb-8">
                 <details class="group bg-white overflow-hidden shadow-sm sm:rounded-2xl border border-gray-100 open:ring-2 open:ring-indigo-100 transition-all duration-300">
                     <summary class="flex items-center justify-between p-6 cursor-pointer list-none hover:bg-gray-50 transition">
@@ -40,7 +40,7 @@
                                     <input type="text" name="course_name" required class="w-full rounded-xl border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 placeholder-gray-300" placeholder="例：情報工学概論">
                                 </div>
 
-                                {{-- 大学名 (既存コードにあったため追加) --}}
+                                {{-- 大学名  --}}
                                 <div>
                                     <label class="block text-xs font-bold text-gray-500 uppercase mb-1">大学名 <span class="text-red-500">*</span></label>
                                     <input type="text" name="university_name" required class="w-full rounded-xl border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 placeholder-gray-300" placeholder="例：〇〇大学">
@@ -84,7 +84,6 @@
                     </div>
                 </details>
             </div>
-            {{-- 追加ここまで --}}
 
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-2xl border border-gray-100">
                 <div class="p-6">

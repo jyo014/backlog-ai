@@ -22,8 +22,7 @@ class TaskController extends Controller
         $dbDoings = (clone $query)->where('status', 'doing')->orderBy('deadline')->get();
         $dbDones = (clone $query)->where('status', 'done')->orderBy('updated_at', 'desc')->take(10)->get();
 
-        // --- 2. ★修正：ダミーデータを「Taskモデル」として作成 ---
-        // (object)[] ではなく、(new Task())->forceFill([]) を使います
+        // ２。修正：ダミーデータを「Taskモデル」として作成 
         $dummies = collect([
             (new Task())->forceFill([
                 'id' => 901, 
@@ -82,7 +81,6 @@ class TaskController extends Controller
         ]);
 
         // --- 3. DBデータとダミーデータを合体させる ---
-        // これでエラー（getKey undefined）が消えます
         $todos = $dbTodos->merge($dummies->where('status', 'todo'));
         $doings = $dbDoings->merge($dummies->where('status', 'doing'));
         $dones = $dbDones->merge($dummies->where('status', 'done'));
@@ -158,7 +156,7 @@ class TaskController extends Controller
             ->with('success', "Backlogから {$count} 件の課題を取り込みました！");
     }
 
-    // ステータス更新（ドラッグ＆ドロップ用）
+    // ステータス更新
     public function updateStatus(Request $request, $id)
     {
         // ダミーデータ(IDが900以上)の場合はDB更新をスキップ

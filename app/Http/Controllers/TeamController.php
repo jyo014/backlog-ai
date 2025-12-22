@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Team;
 use App\Models\Task;
 use App\Models\User;
-use App\Models\University; // ★重要：これを追加しないと大学が取得できません
+use App\Models\University;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
@@ -60,27 +60,27 @@ class TeamController extends Controller
                     ->whereDate('deadline', $now->today())
                     ->get();
             } else {
-                // team_idはあるがDBにチームがない場合（稀なケース）の不整合修正
+                // team_idはあるがDBにチームがない場合
                 $user->team_id = null;
                 $user->save();
             }
         } 
         
-        // ▼ パターンB：まだチームに入っていない場合（脱退後もここを通ります）
+        // ▼ パターンB：まだチームに入っていない場合（脱退後もここを通る）
         if (!$user->team_id) {
-            // ★重要：ここで大学一覧を取得しないと、選択画面でエラーになります
+           
             $universities = University::all();
 
             // チーム検索機能
             $search = $request->input('search');
             $query = Team::query();
             
-            // 大学で絞り込みたい場合はここで処理を追加できますが、一旦検索のみ
+            // 
             if ($search) {
                 $query->where('name', 'like', "%{$search}%");
             }
             
-            // チーム一覧を取得（大学情報も一緒に取得しておくと便利）
+            // チーム一覧を取得
             $allTeams = $query->with('university')->orderBy('created_at', 'desc')->get();
         }
 
@@ -91,7 +91,7 @@ class TeamController extends Controller
             'teamTasks', 
             'myCourses', 
             'allTeams', 
-            'universities', // ★ここが抜けていたのが原因です
+            'universities', 
             'todayCourses', 
             'todayTasks', 
             'todayStr'
@@ -153,7 +153,7 @@ class TeamController extends Controller
         return redirect()->route('team.index');
     }
 
-    // 脱退処理（ここも確認してください）
+    // 脱退処理
     public function leave(Request $request)
     {
         $user = Auth::user();

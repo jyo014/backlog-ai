@@ -15,7 +15,7 @@
                         <span class="text-sm text-gray-500">フィルタ：すべて | 表示設定</span>
                     </div>
 
-                    {{-- 日付ヘッダー（今回は固定ですが、本来はループ処理で日付が変わるごとに表示します） --}}
+                    {{-- 日付ヘッダー --}}
                     <div class="border-b border-gray-300 pb-1 mb-2 font-bold text-gray-600 text-sm">
                         2025年12月21日(日)
                     </div>

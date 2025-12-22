@@ -12,7 +12,7 @@ class GeminiController extends Controller
 {
     /**
      * ダッシュボード画面の表示
-     * 今日の予定、進捗率、期限切れ間近のタスクを集計して表示します
+     * 今日の予定、進捗率、期限切れ間近のタスクを集計して表示
      */
     public function dashboard()
     {

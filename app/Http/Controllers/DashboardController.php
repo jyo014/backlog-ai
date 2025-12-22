@@ -19,7 +19,6 @@ class DashboardController extends Controller
         $todayStr = $dayMap[$now->format('D')];
 
         // --- 2. 今日の授業を取得 (Userにcoursesリレーションがある前提) ---
-        // ※まだリレーションがない場合はエラーになるため、一旦空配列にするか、Userモデルにリレーションを追加してください
         $todayCourses = $user->courses 
             ? $user->courses()->where('day_of_week', $todayStr)->orderBy('period')->get() 
             : [];
@@ -49,7 +48,8 @@ class DashboardController extends Controller
         $progressPercent = $totalTasks > 0 ? round(($completedTasks / $totalTasks) * 100) : 0;
 
         // --- ★追加：Backlog風「最近の更新」データ ---
-        // (本来はActivityLog等のテーブルから取得しますが、今はダミーで再現します)
+        // (本来はActivityLog等のテーブルから取得(一旦ダミーで)
+
         $updates = [
             [
                 'user' => '岡部 条',

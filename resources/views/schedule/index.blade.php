@@ -48,7 +48,7 @@
 
     <div class="py-6 h-[calc(100vh-80px)] bg-white flex flex-col overflow-hidden">
         
-        {{-- ■■■ 1. ヘッダーエリア（時間軸） ■■■ --}}
+        {{--  1. ヘッダーエリア（時間軸）--}}
         <div class="flex border-b border-gray-200 bg-gray-50">
             <div class="w-24 shrink-0 border-r border-gray-200 bg-gray-100 z-20"></div>
             <div class="flex-1 overflow-hidden" id="headerScrollSync">
@@ -62,11 +62,11 @@
             </div>
         </div>
 
-        {{-- ■■■ 2. メインエリア（日付行 × 時間軸） ■■■ --}}
+        {{-- 2. メインエリア（日付行 × 時間軸）--}}
         <div class="flex-1 overflow-y-auto overflow-x-auto relative custom-scrollbar" id="mainScrollContainer">
             <div class="min-w-[1440px]"> 
                 
-                {{-- ★ここが変更点：$weekDays ではなく $periodDays をループ --}}
+                {{-- $periodDays をループ --}}
                 @foreach($periodDays as $day)
                     <div class="flex border-b border-gray-100 group h-20 relative hover:bg-gray-50 transition">
                         
@@ -142,7 +142,7 @@
         </div>
     </div>
 
-    {{-- ■■■ モーダル類（内容は同じですが再掲） ■■■ --}}
+    {{--  モーダル類 --}}
     <div id="createModal" class="fixed inset-0 z-50 hidden" style="z-index: 100;">
         <div class="absolute inset-0 bg-gray-900/50 backdrop-blur-sm transition-opacity" onclick="closeModal('createModal')"></div>
         <div class="flex items-center justify-center min-h-screen p-4 pointer-events-none">

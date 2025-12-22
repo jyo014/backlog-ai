@@ -18,7 +18,7 @@
                     </button>
                 </form>
 
-                {{-- 2. ガントチャートボタン (フォームの外に出しました) --}}
+                {{-- 2. ガントチャートボタン --}}
                 <a href="{{ route('tasks.gantt') }}" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded shadow-md transition flex items-center text-sm">
                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                     ガントチャート
@@ -48,7 +48,7 @@
                 </div>
             @endif
 
-            {{-- ▼▼▼ 1. Backlog風：最近の動き ▼▼▼ --}}
+            {{-- 1. Backlog風：最近の動き --}}
             @if(isset($updates) && count($updates) > 0)
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border border-gray-200">
                 <div class="bg-gray-50 px-6 py-3 border-b border-gray-200 flex justify-between items-center">
@@ -77,7 +77,7 @@
             </div>
             @endif
 
-            {{-- ▼▼▼ 2. カンバンボードエリア ▼▼▼ --}}
+            {{-- 2. カンバンボードエリア --}}
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 
                 {{-- ① 未対応 (ToDo) --}}

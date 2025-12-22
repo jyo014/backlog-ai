@@ -21,7 +21,7 @@ class CourseController extends Controller
         return view('courses.index', compact('courses', 'myCourseIds'));
     }
 
-    // 【修正】新規授業の手動登録処理
+    // 新規授業の手動登録処理
     // CourseController.php の storeメソッド
 
 public function store(Request $request)

@@ -10,14 +10,10 @@ use App\Http\Controllers\TeamController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\SettingController; // ★追加
-use App\Http\Controllers\TaskController;    // ★追加
+use App\Http\Controllers\SettingController; 
+use App\Http\Controllers\TaskController;    
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-*/
+//所々ごちゃってる
 
 Route::get('/', function () {
     return view('welcome');
