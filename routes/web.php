@@ -3,30 +3,24 @@
 use Illuminate\Support\Facades\Route;
 use Gemini\Laravel\Facades\Gemini;
 
-// ▼ コントローラーの読み込み
+// ▼ コントローラー
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\GeminiController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\SettingController; 
-use App\Http\Controllers\TaskController;    
+use App\Http\Controllers\SettingController;
+use App\Http\Controllers\TaskController;
 
-//所々ごちゃってる
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-// 認証関連のルート読み込み
 require __DIR__.'/auth.php';
 
-/*
-|--------------------------------------------------------------------------
-| 認証済みユーザー専用ルート
-|--------------------------------------------------------------------------
-*/
+
 Route::middleware(['auth', 'verified'])->group(function () {
 
     // ==========================================
@@ -34,87 +28,90 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // ==========================================
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-
     // ==========================================
     // 2. 日程管理 (Schedule)
     // ==========================================
-    Route::get('/schedule', [ScheduleController::class, 'index'])->name('schedule.index');
-    Route::get('/schedule/create', [ScheduleController::class, 'create'])->name('schedule.create');
-    Route::post('/schedule', [ScheduleController::class, 'store'])->name('schedule.store');
-    Route::delete('/schedule/{schedule}', [ScheduleController::class, 'destroy'])->name('schedule.destroy'); // ★ここに移動して整理
-
+    Route::controller(ScheduleController::class)->prefix('schedule')->name('schedule.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+        Route::delete('/{schedule}', 'destroy')->name('destroy');
+    });
 
     // ==========================================
     // 3. プロフィール設定
     // ==========================================
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-
-    // ==========================================
-    // 4. AIチャット & 個人タスク管理 (GeminiController)
-    // ==========================================
-    Route::get('/gemini', [GeminiController::class, 'index'])->name('gemini.index');
-    Route::post('/gemini', [GeminiController::class, 'post'])->name('gemini.post');
-    
-    // AIチャット画面での簡易タスク操作
-    Route::post('/gemini/tasks', [GeminiController::class, 'storeTask'])->name('task.store'); // URLパスを少し区別推奨ですが、元のままでも可
-    Route::patch('/gemini/tasks/{task}/complete', [GeminiController::class, 'completeTask'])->name('task.complete');
-    Route::delete('/gemini/tasks/{task}', [GeminiController::class, 'deleteTask'])->name('task.delete');
-
+    Route::controller(ProfileController::class)->prefix('profile')->name('profile.')->group(function () {
+        Route::get('/', 'edit')->name('edit');
+        Route::patch('/', 'update')->name('update');
+        Route::delete('/', 'destroy')->name('destroy');
+    });
 
     // ==========================================
-    // 5. 大学授業・課題管理機能 (Wiki方式)
+    // 4. AIチャット & 簡易タスク (Gemini)
     // ==========================================
-    // 授業一覧
-    Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
-    // 新規登録
-    Route::post('/courses', [CourseController::class, 'store'])->name('courses.store');
-    // 履修登録・解除
-    Route::post('/courses/{course}/enroll', [CourseController::class, 'enroll'])->name('courses.enroll');
-    Route::delete('/courses/{course}/detach', [CourseController::class, 'detach'])->name('courses.detach');
-    // 授業詳細・課題共有
-    Route::get('/courses/{course}', [CourseController::class, 'show'])->name('courses.show');
-    Route::post('/courses/{course}/tasks', [CourseController::class, 'storeTask'])->name('courses.tasks.store');
+    Route::controller(GeminiController::class)->prefix('gemini')->group(function () {
+        // AIチャット
+        Route::get('/', 'index')->name('gemini.index');
+        Route::post('/', 'post')->name('gemini.post');
 
+        // チャット画面でのタスク操作
+        Route::post('/tasks', 'storeTask')->name('task.store');
+        Route::patch('/tasks/{task}/complete', 'completeTask')->name('task.complete');
+        Route::delete('/tasks/{task}', 'deleteTask')->name('task.delete');
+    });
+
+    // ==========================================
+    // 5. 大学授業・課題管理 (Courses)
+    // ==========================================
+    Route::controller(CourseController::class)->prefix('courses')->name('courses.')->group(function () {
+        // 基本操作
+        Route::get('/', 'index')->name('index');
+        Route::post('/', 'store')->name('store');
+        Route::get('/{course}', 'show')->name('show');
+        
+        // 履修・課題
+        Route::post('/{course}/enroll', 'enroll')->name('enroll');
+        Route::delete('/{course}/detach', 'detach')->name('detach');
+        Route::post('/{course}/tasks', 'storeTask')->name('tasks.store');
+    });
 
     // ==========================================
     // 6. チーム機能 (Team)
     // ==========================================
-    Route::get('/team', [TeamController::class, 'index'])->name('team.index');
-    Route::post('/team/join', [TeamController::class, 'join'])->name('team.join');
-    Route::post('/team/create', [TeamController::class, 'create'])->name('team.create');
-    Route::post('/team/task', [TeamController::class, 'storeTeamTask'])->name('team.task.store');
-    Route::post('/team/leave', [TeamController::class, 'leave'])->name('team.leave');
-
-
-    // ==========================================
-    // 7. 設定 (Settings)
-    // ==========================================
-    Route::get('/settings', [SettingController::class, 'edit'])->name('settings.edit');
-    Route::post('/settings', [SettingController::class, 'update'])->name('settings.update');
-
+    Route::controller(TeamController::class)->prefix('team')->name('team.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('/create', 'create')->name('create');
+        Route::post('/join', 'join')->name('join');
+        Route::post('/leave', 'leave')->name('leave');
+        Route::post('/task', 'storeTeamTask')->name('task.store');
+    });
 
     // ==========================================
-    // 8. 総合タスク管理 (TaskController)
+    // 7. 総合タスク管理 (Tasks)
     // ==========================================
-    // 一覧表示
-    Route::get('/tasks', [TaskController::class, 'index'])->name('tasks.index');
-    // ステータス更新
-    Route::post('/tasks/{id}/status', [TaskController::class, 'updateStatus'])->name('tasks.updateStatus');
-    // Backlog取り込み
-    Route::post('/tasks/import', [TaskController::class, 'importBacklog'])->name('tasks.import');
+    Route::controller(TaskController::class)->prefix('tasks')->name('tasks.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/gantt', 'gantt')->name('gantt'); // ガントチャート
+        Route::post('/import', 'importBacklog')->name('import'); // Backlog取り込み
+        Route::post('/{id}/status', 'updateStatus')->name('updateStatus');
+    });
 
+    // ==========================================
+    // 8. 設定 (Settings)
+    // ==========================================
+    Route::controller(SettingController::class)->prefix('settings')->name('settings.')->group(function () {
+        Route::get('/', 'edit')->name('edit');
+        Route::post('/', 'update')->name('update');
+    });
 
     // ==========================================
-    // その他 (デバッグ等)
+    // 9. デバッグ・その他
     // ==========================================
-    Route::get('/ai-chat', function () { 
-        return view('ai-chat'); 
+    Route::get('/ai-chat', function () {
+        return view('ai-chat');
     })->name('ai-chat');
 
-    // Gemini API接続テスト用
     Route::get('/debug-gemini', function () {
         try {
             $response = Gemini::models()->list();
@@ -126,6 +123,5 @@ Route::middleware(['auth', 'verified'])->group(function () {
             return "エラーが発生しました: " . $e->getMessage();
         }
     });
-    // ガントチャート表示
-Route::get('/tasks/gantt', [TaskController::class, 'gantt'])->name('tasks.gantt');
+
 });
