@@ -21,6 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'backlog_domain',
+        'backlog_api_key',
     ];
 
     /**
@@ -31,6 +33,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'backlog_api_key'=>'encrypted',
     ];
 
     /**
@@ -44,5 +47,13 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    // User.php クラスの中に以下を追加
+
+    // ユーザーが履修している授業を取得する設定
+    public function courses()
+    {
+        // 'course_user' テーブルを経由して Courseモデルとつながる
+        return $this->belongsToMany(Course::class, 'course_user');
     }
 }
